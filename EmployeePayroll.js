@@ -1,5 +1,5 @@
 class EmployeePayrollData {
-
+    
     get id() { return this._id;}
     set id(id) {
         this._id =id;
@@ -41,8 +41,14 @@ class EmployeePayrollData {
 
     get startDate() { return this._startDate;}
     set startDate(startDate) {
-        this._startDate = startDate;
+        let now = new Date();
+        if (startDate > now) throw 'Start date is a Future date!';
+        var diff = Math.abs(now.getTime() - startDate.getTime());
+        if (diff / (1000 * 60 * 60 * 24) > 30)
+            throw 'Start date is beyond 30 Days';
+        this._startDate = startDate;    
     }
+
     toString() {
         const option = {year:'numeric',month:'long',day:'numeric'};
         const empDate = !this.startDate ? "undefined" :
